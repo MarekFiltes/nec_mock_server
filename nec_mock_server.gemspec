@@ -10,7 +10,7 @@ require "nec_mock_server/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "nec_mock_server"
-  spec.version       = NECMockServerHelper::VERSION
+  spec.version       = NECMockServer::VERSION
   spec.authors       = ["Marek Filteš"]
   spec.email         = ["marek.files@gmail.com"]
 
