@@ -20,16 +20,19 @@ Or install it yourself as:
 
 ## Usage
 
-Example of usage class NEC::MockServer::Server:
+Example of usage for class NEC::MockServer::Server:
 
 ```ruby
 require 'nec_mock_server'
 
+# Your sub app need to define all routes (UCs).
 class SubAppRouter < NEC::MockServer::Router
   def route(parts, request_data)
     case parts[:resource]
-      when "/getData"
-        ok(request_data, JSON_HEADER)
+      when "/test"
+        ok("Get data was called on #{parts[:tid]}-#{parts[:awid]}")
+      when "/returnRequestData"
+        ok({data: request_data}, JSON_HEADER)
       when "/", ""
         home
       else
@@ -40,7 +43,10 @@ end
 
 app_config = {
     application_name: 'Sub App name',
-    only_registered_awid: true
+    only_registered_awid: true # all request on un registered awids (without sys/initAppworkspace, or via app_config) will be rejected
+    awids: {
+      "00000000000000000000000000000000" => ["00000000000000000000000000000001"] # TID => [AWID, ...] 
+    }
 }
 
 mock_server = NEC::MockServer::Server.new(SubAppRouter, app_config)
@@ -55,7 +61,7 @@ require 'nec_mock_server'
 # define absolute path to directory with run.rb of your sub app
 sub_app_data_path = File.expand_path('../../mock_servers/sub_app', __FILE__)
 sub_app_data = NEC::MockServerStarter.new(sub_app_data_path)
-sub_app_data.run!
+sub_app_data.run! # server start in new command line with IRB
 ```
 
 ## Contributing
