@@ -53,7 +53,7 @@ mock_server = NEC::MockServer::Server.new(SubAppRouter, app_config)
 mock_server.run!(9001)
 ```
 
-Example of usage class NEC::MockServer::Server:
+Example of usage class NEC::MockServerStarter:
 
 ```ruby
 require 'nec_mock_server'
