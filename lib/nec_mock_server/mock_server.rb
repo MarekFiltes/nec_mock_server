@@ -65,7 +65,7 @@ module NEC
       end
 
       ###
-      # The method prepare request and process request
+      # The method catch request and process it
       #
       # @param [Hash] env
       def call(env)
