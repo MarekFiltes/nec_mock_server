@@ -23,6 +23,7 @@ module NEC
       def initialize(router, application_opts = {})
         @router = (router || Router).new(application_opts[:application_name])
         @app = Application.new(@router, application_opts)
+        # @port = application_opts.fetch(:port){Random.rand(9000..9999)}
       end
 
       ###

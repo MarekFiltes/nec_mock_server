@@ -9,9 +9,11 @@ module NEC
     # @param [String] sub_app_dir_path
     # @param [Hash] opts
     # @option opts [String] :run_scrip_name Default is #RUN_SCRIPT_NAME
+    # @option opts [Fixnum] :port
     def initialize(sub_app_dir_path, opts = {})
       @path = File.expand_path(sub_app_dir_path, File.dirname(__FILE__))
       @run_scrip_name = opts.fetch(:run_scrip_name) {RUN_SCRIPT_NAME}
+      @port = opts[:port]
     end
 
     ###
@@ -19,6 +21,8 @@ module NEC
     # Sub app will be started in new command line with irb
     #
     def run!
+      return if @port && already_run?
+
       create_threat
     end
 
@@ -31,6 +35,15 @@ module NEC
     end
 
     private
+
+    def already_run?
+      begin
+        Net::HTTP.get(URI("http://localhost:#{@port}"))
+        return true
+      rescue Errno::ECONNREFUSED
+        return false
+      end
+    end
 
     ###
     # The method create new thread for sub app and start it in new cmd window.

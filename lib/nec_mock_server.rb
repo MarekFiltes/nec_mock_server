@@ -2,6 +2,7 @@ require 'rack'
 require 'rack/server'
 require 'json'
 require 'fileutils'
+require 'net/http'
 
 module NEC
 
